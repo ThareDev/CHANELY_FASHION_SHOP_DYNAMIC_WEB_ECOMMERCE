@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, type Variants } from "framer-motion";
 import tops from "@/public/im1.jpg";
 import trousers from "@/public/im2.jpg";
 import dresses from "@/public/im3.jpg";
@@ -34,7 +34,7 @@ const CATEGORIES = [
   },
 ];
 
-const cardVariants = {
+const cardVariants: Variants = {
   hidden: { opacity: 0, y: 40 },
   show: (i: number) => ({
     opacity: 1,
@@ -42,7 +42,7 @@ const cardVariants = {
     transition: {
       duration: 0.8,
       delay: i * 0.12,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
     },
   }),
 };
