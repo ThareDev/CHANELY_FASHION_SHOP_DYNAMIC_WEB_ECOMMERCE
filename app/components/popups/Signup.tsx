@@ -335,7 +335,7 @@ export default function SignUp({ isOpen, onClose, onSwitchToSignIn }: SignUpProp
                       fontFamily: "'Jost', sans-serif", fontSize: 10,
                       color: "var(--mink)", lineHeight: 1.7, letterSpacing: "0.04em",
                     }}>
-                      By creating an account you agree to Chanely's{" "}
+                      By creating an account you agree to Chanely&apos;s{" "}
                       <a href="#" style={{ color: "var(--charcoal)", textDecoration: "underline" }}>
                         Terms of Service
                       </a>{" "}
