@@ -11,7 +11,6 @@ export interface AuthUser {
 interface AuthState {
   user: AuthUser | null;
   token: string | null;
-  /** Unix timestamp (ms) when the JWT expires */
   tokenExpiration: number | null;
   isAuthenticated: boolean;
 }

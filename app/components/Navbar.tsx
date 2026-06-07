@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout, selectIsAuthenticated, selectCurrentUser } from "@/app/store/slices/authSlice";
 import SignIn from "@/app/components/popups/Signin";
 import SignUp from "@/app/components/popups/Signup";
+import ForgotPassword from "./popups/ForgotPassword";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -45,6 +46,7 @@ export default function Header() {
   const [signInOpen, setSignInOpen] = useState(false);
   const [signUpOpen, setSignUpOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [forgotOpen, setForgotOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -661,11 +663,17 @@ export default function Header() {
         isOpen={signInOpen}
         onClose={() => setSignInOpen(false)}
         onSwitchToSignUp={openSignUp}
+        onForgotPassword={() => { setSignInOpen(false); setTimeout(() => setForgotOpen(true), 350); }}
       />
       <SignUp
         isOpen={signUpOpen}
         onClose={() => setSignUpOpen(false)}
         onSwitchToSignIn={openSignIn}
+      />
+      <ForgotPassword
+        isOpen={forgotOpen}
+        onClose={() => setForgotOpen(false)}
+        onSwitchToSignIn={() => { setForgotOpen(false); setTimeout(() => setSignInOpen(true), 350); }}
       />
     </>
   );

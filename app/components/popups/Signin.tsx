@@ -9,6 +9,7 @@ interface SignInProps {
   isOpen: boolean;
   onClose: () => void;
   onSwitchToSignUp: () => void;
+  onForgotPassword: () => void;   // ← add this
 }
 
 const FIELD_STYLE = `
@@ -19,7 +20,7 @@ const FIELD_STYLE = `
   transition: border-color 0.25s;
 `;
 
-export default function SignIn({ isOpen, onClose, onSwitchToSignUp }: SignInProps) {
+export default function SignIn({ isOpen, onClose, onSwitchToSignUp, onForgotPassword }: SignInProps) {
   const dispatch = useDispatch();
   const [form, setForm] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
@@ -236,6 +237,7 @@ export default function SignIn({ isOpen, onClose, onSwitchToSignUp }: SignInProp
                         <label className="si-label">Password</label>
                         <a
                           href="#"
+                          onClick={(e) => { e.preventDefault(); onForgotPassword(); }}
                           style={{
                             fontFamily: "'Jost', sans-serif", fontSize: 9,
                             letterSpacing: "0.14em", color: "var(--mink)",
