@@ -12,15 +12,15 @@ import { selectCartCount, openCart } from "@/app/store/slices/cartSlice";
 import Image from "next/image";
 import logo from "@/public/logoopic.png"
 
-const NAV_LINKS = [
+type NavLink = {
+  label: string;
+  href: string;
+  sub?: string[];
+};
+
+const NAV_LINKS: NavLink[] = [
   { label: "Home", href: "/" },
-  {
-    label: "Shop",
-    href: "#",
-    sub: ["All Collections", "Tops & Blouses", "Trousers", "Dresses & Skirts", "Accessories"],
-  },
   { label: "New Arrivals", href: "#new-arrivals" },
-  { label: "Best Sellers", href: "#best-sellers" },
   { label: "About Us", href: "#about" },
   { label: "Contact", href: "#contact" },
 ];
@@ -401,8 +401,7 @@ export default function Header() {
         {/* ── Announcement bar ── */}
         <div className="ch-announce">
           <div className="ch-announce-links">
-            <a href="#">Track Order</a>
-            <a href="#">Help</a>
+            <a href="#contact">Help</a>
           </div>
           <div className="ch-announce-msg">
             <AnimatePresence mode="wait">
