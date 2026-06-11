@@ -8,6 +8,9 @@ import { logout, selectIsAuthenticated, selectCurrentUser } from "@/app/store/sl
 import SignIn from "@/app/components/popups/Signin";
 import SignUp from "@/app/components/popups/Signup";
 import ForgotPassword from "./popups/ForgotPassword";
+import { selectCartCount, openCart } from "@/app/store/slices/cartSlice";
+import Image from "next/image";
+import logo from "@/public/logoopic.png"
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -42,11 +45,19 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [announcementIdx, setAnnouncementIdx] = useState(0);
-  const [cartCount] = useState(0);
+  const cartCount = useSelector(selectCartCount);
   const [signInOpen, setSignInOpen] = useState(false);
   const [signUpOpen, setSignUpOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [forgotOpen, setForgotOpen] = useState(false);
+
+
+
+  useEffect(() => {
+    const handler = () => openSignIn();
+    window.addEventListener("chanely:open-signin", handler);
+    return () => window.removeEventListener("chanely:open-signin", handler);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -422,10 +433,19 @@ export default function Header() {
         {/* ── Main nav bar ── */}
         <div className="ch-main">
 
-          {/* Logo */}
           <Link href="/" className="ch-logo-wrap">
-            <div className="ch-logo-mark"><span>C</span>H</div>
-            <div className="ch-logo-sub">Chanely · Wear Your Grace</div>
+            <Image
+              src={logo}
+              alt="Chanely"
+              width={160}
+              height={52}
+              style={{
+                width: "auto",
+                height: 52,
+                objectFit: "contain",
+              }}
+              priority
+            />
           </Link>
 
           {/* Desktop nav */}
@@ -467,29 +487,19 @@ export default function Header() {
 
           {/* Right side: icons + auth */}
           <div className="ch-icons">
-            {/* Search — always visible */}
-            <button className="ch-icon-btn" aria-label="Search">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <circle cx="11" cy="11" r="7" /><path d="M21 21l-4.35-4.35" />
-              </svg>
-            </button>
-
-            {/* Wishlist — always visible */}
-            <button className="ch-icon-btn" aria-label="Wishlist">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-              </svg>
-            </button>
 
             {/* Cart — authenticated only */}
             {isAuthenticated && (
-              <button className="ch-icon-btn" aria-label="Cart" style={{ position: "relative" }}>
+              <button className="ch-icon-btn" aria-label="Cart"
+                style={{ position: "relative" }}
+                onClick={() => dispatch(openCart())}
+              >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
                   <line x1="3" y1="6" x2="21" y2="6" />
                   <path d="M16 10a4 4 0 01-8 0" />
                 </svg>
-                <span className="ch-cart-badge">{cartCount}</span>
+                {cartCount > 0 && <span className="ch-cart-badge">{cartCount}</span>}
               </button>
             )}
 
@@ -523,10 +533,6 @@ export default function Header() {
                       exit={{ opacity: 0, y: 8 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <Link href="/account">My Account</Link>
-                      <Link href="/orders">My Orders</Link>
-                      <Link href="/wishlist">Wishlist</Link>
-                      <hr />
                       <button onClick={() => dispatch(logout())}>Sign Out</button>
                     </motion.div>
                   )}
@@ -625,8 +631,6 @@ export default function Header() {
                       }}>{user?.email}</p>
                     </div>
                   </div>
-                  <Link href="/account" style={{ color: "var(--mink)", fontFamily: "'Jost', sans-serif", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "10px 0", display: "block" }} onClick={() => setMenuOpen(false)}>My Account</Link>
-                  <Link href="/orders" style={{ color: "var(--mink)", fontFamily: "'Jost', sans-serif", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "10px 0", display: "block" }} onClick={() => setMenuOpen(false)}>My Orders</Link>
                   <button
                     className="ch-mobile-auth-full"
                     style={{ background: "none", border: "1px solid var(--stone)", color: "var(--charcoal)" }}

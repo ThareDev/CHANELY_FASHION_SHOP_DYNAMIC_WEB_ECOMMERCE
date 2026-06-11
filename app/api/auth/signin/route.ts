@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({
-      user: { id: user._id, fullName: user.fullName, email: user.email },
+      user: { id: user._id, fullName: user.fullName, email: user.email, whatsapp: user.whatsapp },
       token,
       tokenExpiration,
     });
